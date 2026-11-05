@@ -74,14 +74,14 @@ export function formatGW(mw: number): string {
   if (mw >= 1000) {
     return `${(mw / 1000).toFixed(2)} GW`;
   }
-  return `${mw} MW`;
+  return `${mw.toLocaleString()} MW`;
 }
 
 export function formatGWShort(mw: number): string {
   if (mw >= 1000) {
-    return `${(mw / 1000).toFixed(1)} GW`;
+    return `${(mw / 1000).toFixed(2)} GW`;
   }
-  return `${(mw / 1000).toFixed(2)} GW`;
+  return `${mw.toLocaleString()} MW`;
 }
 
 export function getLastUpdated(): string {
