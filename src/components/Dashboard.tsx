@@ -40,13 +40,13 @@ export function Dashboard({ projects, lastUpdated }: Props) {
   const totals = useMemo(() => {
     const byStage = new Map<Stage, { count: number; mw: number }>();
     for (const s of STAGES) byStage.set(s.id, { count: 0, mw: 0 });
-    for (const p of filtered) {
+    for (const p of projects) {
       const e = byStage.get(p.stage)!;
       e.count += 1;
       e.mw += p.capacityMW;
     }
     return byStage;
-  }, [filtered]);
+  }, [projects]);
 
   const totalGW = filtered.reduce((a, p) => a + p.capacityMW, 0);
   const totalOpsMW = filtered.reduce((a, p) => a + (p.statusMW ?? 0), 0);
