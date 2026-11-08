@@ -68,15 +68,16 @@ export function MapView({ projects }: Props) {
         const stage = STAGE_MAP[project.stage];
         const el = document.createElement("div");
         el.style.cssText = `
-          width: 12px;
-          height: 12px;
+          width: 14px;
+          height: 14px;
           border-radius: 50%;
           background: ${stage.color};
-          border: 2px solid #0a0e17;
+          border: 2px solid rgba(10, 14, 23, 0.8);
+          box-shadow: 0 0 0 1px ${stage.color}40, 0 1px 3px rgba(0,0,0,0.4);
           cursor: pointer;
-          transition: transform 0.15s;
+          transition: transform 0.15s ease;
         `;
-        el.onmouseenter = () => (el.style.transform = "scale(1.5)");
+        el.onmouseenter = () => (el.style.transform = "scale(1.6)");
         el.onmouseleave = () => (el.style.transform = "scale(1)");
 
         const marker = new maplibregl.Marker(el)
