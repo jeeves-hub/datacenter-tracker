@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import type { Project, Stage } from "@/lib/types";
 import { STAGES, STAGE_MAP } from "@/lib/types";
 import { formatGW } from "@/lib/stats";
+import { MapView } from "@/components/MapView";
 
 type Props = {
   projects: Project[];
@@ -15,6 +16,7 @@ export function Dashboard({ projects, lastUpdated }: Props) {
   const [stateFilter, setStateFilter] = useState<string>("all");
   const [search, setSearch] = useState("");
   const [selected, setSelected] = useState<string | null>(null);
+  const [viewMode, setViewMode] = useState<"table" | "map">("table");
 
   const states = useMemo(() => {
     const set = new Set(projects.map((p) => p.location.state));
@@ -99,6 +101,24 @@ export function Dashboard({ projects, lastUpdated }: Props) {
         })}
       </div>
 
+      {/* View toggle + Controls */}
+      <div className="flex items-center justify-between">
+        <div className="inline-flex rounded-lg border border-gray-800 p-1">
+          <button
+            onClick={() => setViewMode("table")}
+            className={`rounded-md px-3 py-1 text-sm ${
+              viewMode === "table" ? "bg-gray-800 text-white" : "text-gray-400 hover:text-gray-200"
+            }`}
+          >Table</button>
+          <button
+            onClick={() => setViewMode("map")}
+            className={`rounded-md px-3 py-1 text-sm ${
+              viewMode === "map" ? "bg-gray-800 text-white" : "text-gray-400 hover:text-gray-200"
+            }`}
+          >Map</button>
+        </div>
+      </div>
+
       {/* Controls */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
         <input
@@ -134,9 +154,12 @@ export function Dashboard({ projects, lastUpdated }: Props) {
         )}
       </div>
 
-      {/* Table + detail panel */}
-      <div className="grid gap-4 lg:grid-cols-[1fr_400px]">
-        <div className="overflow-x-auto rounded-lg border border-gray-800">
+      {/* Table + detail panel (or Map) */}
+      {viewMode === "map" ? (
+        <MapView projects={filtered} />
+      ) : (
+        <div className="grid gap-4 lg:grid-cols-[1fr_400px]">
+          <div className="overflow-x-auto rounded-lg border border-gray-800">
           <table className="w-full min-w-[600px] text-sm">
             <thead className="bg-gray-900/50 text-xs uppercase tracking-wide text-gray-400">
               <tr>
@@ -196,7 +219,8 @@ export function Dashboard({ projects, lastUpdated }: Props) {
         {selectedProject && (
           <ProjectDetail project={selectedProject} onClose={() => setSelected(null)} />
         )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
