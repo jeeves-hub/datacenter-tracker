@@ -80,7 +80,10 @@ export function Dashboard({ projects, lastUpdated }: Props) {
           return (
             <button
               key={s.id}
-              onClick={() => setStageFilter(active ? "all" : s.id)}
+              onClick={() => {
+                setStageFilter(active ? "all" : s.id);
+                setViewMode("map");
+              }}
               className={`group rounded-lg border p-4 text-left transition-all ${
                 active ? "border-transparent" : "border-gray-800 hover:border-gray-600"
               }`}
