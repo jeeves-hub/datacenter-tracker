@@ -1,5 +1,6 @@
 import { PROJECTS } from "./projects";
 import { CENSUS_ADDITIONS } from "./sources/census-additions";
+import { OPERATING_AI_FACILITIES } from "./sources/operating-ai";
 import type { Project, Stage } from "./types";
 
 // Merge all sources and deduplicate by project name similarity.
@@ -43,7 +44,11 @@ function deduplicate(projects: Project[]): Project[] {
 }
 
 export function getAllProjects(): Project[] {
-  return deduplicate([...PROJECTS, ...CENSUS_ADDITIONS]);
+  return deduplicate([
+    ...PROJECTS,
+    ...CENSUS_ADDITIONS,
+    ...OPERATING_AI_FACILITIES,
+  ]);
 }
 
 export type StageSummary = {
